@@ -1,7 +1,15 @@
 const Gameboard = (function () {
     let gameboard = Array(9).fill('');
 
+    function clearBoard() {
+        const boardDiv = document.querySelector('.board');
+        while (boardDiv.firstChild) {
+            boardDiv.removeChild(boardDiv.firstChild);
+        }
+    }
+
     function buildBoard() {
+        clearBoard();
         const boardDiv = document.querySelector('.board');
         // find square size
         const squareSize = boardDiv.offsetWidth / 3;
@@ -9,8 +17,8 @@ const Gameboard = (function () {
         for (let i = 0; i < gameboard.length; i++) {
             const boardSquare = document.createElement('div');
             boardSquare.classList.add('board-square');
-            boardSquare.style.width = `${squareSize}px`;
-            boardSquare.style.height = `${squareSize}px`;
+            boardSquare.style.width = `33.33%`;
+            boardSquare.style.height = `33.33%`;
             boardSquare.dataset.id = i;
             boardSquare.addEventListener('click', GameController.placeMarker);
             boardDiv.appendChild(boardSquare);
@@ -37,6 +45,8 @@ const Gameboard = (function () {
         for (let pattern of winPatterns) {
             const [a, b, c] = pattern;
             if (gameboard[a] && gameboard[a] === gameboard[b] && gameboard[a] === gameboard[c]) {
+                const startGame = document.querySelector('#start-game');
+                startGame.textContent = 'Start game';
                 return gameboard[a];
             }
         }
@@ -46,6 +56,8 @@ const Gameboard = (function () {
     function checkTie() {
         // if array has empty strings and checkWin is false
         if (gameboard.every(a => a !== '') && !checkWin()) {
+            const startGame = document.querySelector('#start-game');
+            startGame.textContent = 'Start game';
             return true;
         }
         return false;
@@ -73,16 +85,35 @@ function Player(name, marker) {
         name,
         marker,
     }
-}   
+}
 
 const GameController = (function () {
     let players = [];
     let currentPlayer = 0; //index of current player
 
-    function initGame() {
+    const startGameButton = document.querySelector('.game-settings');
+    startGameButton.addEventListener('submit', (e) => {
+        e.preventDefault();
+        setNames();
+    }, true);
+
+    function setNames() {
+        const pOneInput = document.querySelector('#player-one-name');
+        const pTwoInput = document.querySelector('#player-two-name');
+        const startGame = document.querySelector('#start-game');
+
+        let playerOneName = !pOneInput.value ? 'Player One' : pOneInput.value;
+        let playerTwoName = !pTwoInput.value ? 'Player Two' : pTwoInput.value;
+
+        startGame.textContent = 'Reset game';
+
+        initGame(playerOneName, playerTwoName);
+    }
+
+    function initGame(pOne, pTwo) {
         players.push(
-            Player('Alex', 'X'),
-            Player('Rachel', 'O'),
+            Player(pOne, 'X'),
+            Player(pTwo, 'O'),
         );
         currentPlayer = 0;
         updateMessage();
@@ -126,12 +157,19 @@ const GameController = (function () {
     }
 
     return {
+        setNames,
         updateMessage,
         initGame,
         switchPlayer,
         placeMarker,
         getCurrentPlayer,
     }
-})()
+}())
 
-GameController.initGame();
+document.addEventListener('DOMContentLoaded', function () {
+    Gameboard.buildBoard();
+});
+
+// add restart game button
+// add text inputs to get player names, and marker
+// add button to start game
