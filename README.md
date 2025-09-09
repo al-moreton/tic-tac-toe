@@ -1,4 +1,4 @@
-# Rock, paper, scissors
+# Tic-tac-toe
 
 [Live version](https://al-moreton.github.io/rock-paper-scissors/)
 
