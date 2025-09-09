@@ -121,6 +121,7 @@ const GameController = (function () {
 
         if (Gameboard.checkTie()) {
             messageDiv.textContent = 'The game is a tie';
+            return;
         }
     }
 
