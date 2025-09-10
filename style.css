@@ -106,6 +106,6 @@ footer {
     }
 
     #player-one-name, #player-two-name, #start-game {
-        width: 100%;
+        width: 300px;
     }
 }
