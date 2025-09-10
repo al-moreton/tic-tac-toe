@@ -11,13 +11,11 @@ const Gameboard = (function () {
     function buildBoard() {
         clearBoard();
         const boardDiv = document.querySelector('.board');
-        // find square size
-        const squareSize = boardDiv.offsetWidth / 3;
         // build board
         for (let i = 0; i < gameboard.length; i++) {
             const boardSquare = document.createElement('div');
             boardSquare.classList.add('board-square');
-            boardSquare.style.width = `33.33%`;
+            boardSquare.style.width = `33.33%`; // a third of the size of container
             boardSquare.style.height = `33.33%`;
             boardSquare.dataset.id = i;
             boardSquare.addEventListener('click', GameController.placeMarker);
@@ -95,7 +93,7 @@ const GameController = (function () {
     startGameButton.addEventListener('submit', (e) => {
         e.preventDefault();
         setNames();
-    }, true);
+    });
 
     function setNames() {
         const pOneInput = document.querySelector('#player-one-name');
@@ -170,6 +168,4 @@ document.addEventListener('DOMContentLoaded', function () {
     Gameboard.buildBoard();
 });
 
-// add restart game button
-// add text inputs to get player names, and marker
-// add button to start game
+// disable game board if game ends

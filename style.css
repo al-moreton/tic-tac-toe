@@ -77,7 +77,7 @@ footer {
     }
 
     footer {
-        margin-top: 20px;
+        margin-top: 0px;
     }
 }
 
@@ -101,5 +101,11 @@ footer {
         flex-direction: column;
         padding: 10px;
         margin-bottom: 0px;
+        margin: auto;
+        align-items: center;
+    }
+
+    #player-one-name, #player-two-name, #start-game {
+        width: 100%;
     }
 }
